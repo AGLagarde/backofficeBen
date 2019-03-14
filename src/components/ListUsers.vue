@@ -42,7 +42,7 @@
 <script>
 import {HTTP} from '../http-constant'
 import axios from 'axios'
-import Popin from './popin.vue'
+import Popin from './Popin.vue'
 
 
 export default {
@@ -86,14 +86,14 @@ export default {
       },
 
       deleteUser: function(entry) {
-        console.log(this.users)
-        this.users = this.users.filter(users => {
-          console.log(users.id)
-          console.log('entry id')
-          console.log('entry.id)
-          users.id !== entry.id 
-        })
-        console.log(this.users)
+        // console.log(this.users)
+        // this.users = this.users.filter(users => {
+        //   console.log(users.id)
+        //   console.log('entry id')
+        //   console.log('entry.id)
+        //   users.id !== entry.id 
+        // })
+        // console.log(this.users)
       }, 
 
       
