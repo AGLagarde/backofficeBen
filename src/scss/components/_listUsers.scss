@@ -1,0 +1,115 @@
+.listUsers {
+    width: 100%; 
+    margin: 0 auto;
+    &__table {
+        width: 100%; 
+        background-color: $grey;
+        color: $bluedark;
+
+        &__head {
+            text-transform: uppercase;
+        }
+
+        &__body {
+            &:nth-child(even) {
+                background: #FFF;
+            }
+
+            &-entries {
+                input[disabled] {
+                    background-color: transparent; 
+                    border: none;
+                    color: #000;
+                }
+
+                input {
+                    text-align: center;
+                    border: none;
+                    border-bottom: 1px solid blue;
+                    color: blue;
+                    background-color: transparent;
+                    cursor: text;
+                }
+            }
+
+            &-actions {
+                li {
+                    padding: 2px 6px;
+                    border: 1px solid $bluedark; 
+                    border-radius: 10px;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: $bluedark;
+                        color: $white;
+                    }
+
+                    &:last-child {
+                        border-color: $red; 
+                        color: $red; 
+
+                        &:hover {
+                            background-color: $red; 
+                            color: $white;
+                        }
+                    }
+
+                    &.input-editable {
+                        background-color: $green;
+                        border-color: $green; 
+                        color: $white;
+                    }
+                }
+
+            }
+        }
+    }
+
+    .popin {
+        display: none;
+        position: fixed;
+        width: 60%;
+        left: 20%;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 100px 30px;
+        -webkit-box-shadow:  0px 0px 0px 9999px rgba(0, 0, 0, 0.5);
+        box-shadow:  0px 0px 0px 9999px rgba(0, 0, 0, 0.5);
+        font-size: 24px;
+        text-align: center;
+        background: $white;
+        z-index: 5;
+        
+        &-open {
+            display: block;
+        }
+
+        &__firstStep {
+            display: flex; 
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        &__text {
+            width: 100%;
+            margin: 0 0 30px;
+            
+        }
+        
+        &__answer {
+            width: 30%;
+            text-decoration: none;
+        }
+
+        &__secondStep {
+            height: 100%;
+            img {
+                position: absolute;
+                right: 10px;
+                top: 10px;
+                width: 50px; 
+                cursor: pointer;
+            }
+        }
+    }
+  }
