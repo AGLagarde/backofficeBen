@@ -1,13 +1,22 @@
 <template>
   <div class="listUsers">
     <h2>{{ title }}</h2>
+    <div class="listUsers__add">
+      <h4>Wanna add a new user ?</h4>
+      <form action="" class="listUsers__add__form">
+        <input type="text" placeholder="Firstname" v-model:value="newUser.firstname">
+        <input type="text" placeholder="Lastname" v-model:value="newUser.lastname">
+        <input type="email" placeholder="Email" v-model:value="newUser.email">
+        <input type="password" placeholder="Password" v-model:value="newUser.password">
+        <button v-on:click="createUser">Créer</button>
+      </form>
+    </div>
     <table class="listUsers__table"> 
       <tr class="listUsers__table__head">
         <th>#</th>
         <th>Prénom</th> 
         <th>Nom</th>
         <th>Mail</th>
-        <th>Like</th>
         <th>Actions</th>
       </tr>
       <tr class="listUsers__table__body" 
@@ -19,22 +28,34 @@
         <th class="listUsers__table__body-entries"><input class="input-firstname" type="text" disabled="true" v-bind:value="user.id"></th> 
         <th class="listUsers__table__body-entries"><input class="input-firstname" type="text" disabled="true" v-bind:value="user.firstname" v-on:keyup.enter="editUser"></th> 
         <th class="listUsers__table__body-entries"><input class="input-name" type="text" disabled="true" v-bind:value="user.lastname" v-on:keyup.enter="editUser"></th>
-        <th class="listUsers__table__body-entries"><input class="input-mail" type="text" disabled="true" v-bind:value="user.mail" v-on:keyup.enter="editUser"></th>
-        <th class="listUsers__table__body-entries"><input class="input-likes" type="text" disabled="true" v-bind:value="user.likes" v-on:keyup.enter="editUser"></th>
+        <th class="listUsers__table__body-entries"><input class="input-mail" type="text" disabled="true" v-bind:value="user.email" v-on:keyup.enter="editUser"></th>
         <th class="listUsers__table__body-actions">
           <ul>
-            <li v-on:click="editUser">{{ msgAction }}</li>
+            <button-user
+                title="Editer"
+                :active-button="editButton.activeState"
+                :non-active-button="editButton.nonActiveState">
+            </button-user>
             <li v-on:click="deleteConfirmationUser">Supprimer</li>
           </ul>
         </th>
       </tr>
     </table>
 
-    <Popin/>
+    <div class="popin">
+      <div class="popin__confirm" v-if="!deletedItem">
+        <p class="popin__text">Are you sure you want to delete this user from the database ?</p>
+        <a href="#" class="popin__answer popin__answer-validation" v-on:click="deleteUser(user)">Yes</a>
+        <a href="#" class="popin__answer popin__answer-cancelation" v-on:click="closePopin">No</a>
+      </div>
+      <div class="popin__validation" v-if="deletedItem">
+        <img src="../assets/cross-icon.png" alt="close popin" v-on:click="closePopin">
+        <p>User has been correctly deleted ! </p>
+      </div> 
+    </div>
 
     <!-- cf modele backoffice : https://vuejsexamples.com/basic-vuejs-data-table/ -->
-    <button v-on:click="getUser">Get Users</button>
-    <button v-on:click="createUser">Create User</button>
+
   </div>
   
 </template>
@@ -42,110 +63,117 @@
 <script>
 import {HTTP} from '../http-constant'
 import axios from 'axios'
-import Popin from './Popin.vue'
-
+import ButtonUser from './ButtonUser'
 
 export default {
   name: 'listUsers',
   components: {
-    Popin
+    ButtonUser
   },
   data() {
     return {
-      // users : {
-      //   firstname:'',
-      //   lastname: '',
-      //   email: '',
-      //   password: ''
-      // },
-      users: [
-        { id: 33, firstname: 'Anna', name: 'Lagarde', mail: 'allie@gmail.com', likes: 10 }, 
-        { id: 44, firstname: 'Olga', name: 'Fritz', mail: 'money@gmail.com', likes: 22 },
-        { id: 55, firstname: 'Tosupress', name: 'Tosupress', mail: 'Tosupress@gmail.com', likes: 0 }
-      ], 
-      title: 'Colocataires', 
-      msgAction: 'Editer', 
-      deletedItem : false
-    }
-  },
-  methods: {
-      editUser: function(event) {
-        let domScope = event.target.parentNode.parentNode.parentNode;
-        let inputs = domScope.querySelectorAll('.listUsers__table__body-entries input'); 
-
-        if (!event.target.classList.contains('input-editable')) {
-          event.target.classList.add('input-editable')
-          this.msgAction = 'Valider'
-          inputs.forEach(input => input.removeAttribute('disabled'))
-
-        } else {
-          event.target.classList.remove('input-editable')
-          this.msgAction = 'Editer'
-          inputs.forEach(input => input.setAttribute('disabled', 'true'))
+      users : [],
+      newUser: {
+        firstname: '', 
+        lastname: '',
+        email: '',
+        password: '',
+        likes: '0'
+      },
+      editButton: {
+        activeState: {
+          backgroundColor: 'black',
+          colorText:'white',
+          borderColor: 'black'
+        },
+        nonActiveState: {
+          backgroundColor:'white',
+          colorText:'black',
+          borderColor: 'black'
         }
       },
-
-      deleteUser: function(entry) {
-        // console.log(this.users)
-        // this.users = this.users.filter(users => {
-        //   console.log(users.id)
-        //   console.log('entry id')
-        //   console.log('entry.id)
-        //   users.id !== entry.id 
-        // })
-        // console.log(this.users)
-      }, 
-
-      
-
-      // HTTP.get(...).then(...).catch(...)
-        
-          // http://ulysse.idequanet.com/ben/web/api/user
-          // un user : repo, stars
-          // travailler l'authentification token  jwt ou oAuth2
-          // JSON: renvoie un objet clé:users
-
-      // search bar 
-      // https://codepen.io/AndrewThian/pen/QdeOVa
-
-      getUser: function() {
-        axios({
-          method: 'get',
-          url: 'http://ulysse.idequanet.com/ben/web/api/users',
-          headers: {
-            Authorization: "BEARER eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE1NTI1NjQyNjYsImV4cCI6MTU1MjU3NTA2Niwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiam90ZXNzc2VAZ21haWwuY29tIn0.SO-brZ3PEHStRJo9vfllIsazTFjfbzr_IKr4RcXuFfeYaH_02Eu3k6csws6s7YcATpyWSfM7LIk7V6OjnperjadVdQTtHQBLBuKkj6v6kOn_BMiTARck-7JYLVFJCoBfv3a8VjiqkI3NGfrqzHdTv89tjs_ktX8mdcN5ljrC05gzjeBu8I2107Xg0UGLQVbqO0OyXfVHEROTv6Ws7pOPJBqD-JCwRkM0diK_2B94nGKaDBEOkWCbTSgtrnCok5KAvtVquVsEsvKv4aTUWPf_swlCkrz9FP92Dv1ilupS7KM7NYDcct8aEUMp-w0lrlH8GDtKSDSyoFrW7AqnBvdfL9yng8_kbjNUkag-C6sFRCSehAdSWZQBJuRMPDFA2r-1-xtmSsGXqAsdlOjVJ0n3ViYb6n0g_UmT14Cfx-Wp6l8kYZGR6l6yqrGxJb9hx-CD4DZOoUpJV4ksNOusQqpJah0JALMNJMx8tmnMqd9gtZ7hdttVCiYBov8C3Q-lRkEv45K6waw8M1R8c1vOrzd-j1BSb0W1yQeHZxyQS4o7qfl5rYks5gUIrKYcW0C5XkDbgNv6pvnk6yDCXndgghOq7aM-USDkPNeF3xvhbe4cm0L4lxT-Kl-Wra6DyevjDY-y1-CncsxEajpCeeLhrrzY8yYBlek9PWrdNpbYZWnt5-4"
-          }
-        })
-          .then(response => {
-            this.users = response.data
-            console.log(this.users)
-            console.log(this.users[0].firstname)
-            console.log(this.users[0].lastname)
-          })
-          .catch(err => {
-            console.log(err)
-          })
-      },
-
-      createUser: function() {
-        axios({
-          method: 'post',
-          url: 'http://ulysse.idequanet.com/ben/web/api/user/create',
-          data: { user : {
-              firstname : 'Anne',
-              lastname : 'Lagarde', 
-              email : 'anne.lagarde@hetic.net', 
-              password : 'ben'
-          } },
-          headers: {
-            "Access-Control-Allow-Origin": "*"
-          },
-        }).then(function (response) {
-            console.log(response);
-        }).catch(function (error) {
-            console.log(error);
-        });
+      title: 'Colocataires', 
+      msgAction: 'Editer', 
+      deletedItem : false, 
+      token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE1NTI2NDI3MzIsImV4cCI6MTU1MjY1MzUzMiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYW5uZS5hemF6ZHNzZGZzZGVAaGV0aWMubmV0In0.aNWVAvos3bOAK_TGj8VmgTMwZvJX8kcZrWU0Fqa9zi5K1x1YXxw2NA3jKL82Y_EXsEX0b8rEND6dUAWqDxL-BSAjG05EqQ6al9nIYfMqQTvYPMibD_bjbzspZ-_E_sWYb6IDIGccrVwGMG14HnBTfAm9awzOY2YbRnkdkW7TYOblOuLMnCH_2rEHRYZMEOGMIu2rf-nWkMteac2zfZAzrYFf9DKkdC6wf5DeXI78tLli0K-6TXzpk0RDPFVi3JN0fkXzQ795UoXPrj5NBYqwwg3qiLlMA5rV5Qz-DlcY7XgsN-mEIzpMs8zFkmytLr-UYALCdz8L1YxTG8_PfyaOQrYr1-oRhjkrsVFxSh-6qot7LFoH2vGOA6k4SWiqreCuQDbfLTGWTUaV2RodTr6lacpFympCGsdFKLDjSjA8GcJ53UH4DZe9EvkxsD-WfYmBq7iu9EYDkeTUx6_hYgjjIglLJdKS14sVJqLN7ViecWmRgESOISohCYl8u-HAGCqGBH72wDZ87JHa0MVBp3TmkF9PY4NCqvxMMCp1U_SAqjDB1Q5qqz3FBsbFhEegFj3kp6I_hiVsm4px-rynvlaVxehX4laFRgyK7AD8Nw-d-2Cw79jBxkpAjIuZVMSvt4gajQPWcSTjBB_I9ZUAxhnVM2m_o6arnjbsr5F_ZWzp9Ww'
+    }
+  },
+  created: function() {
+    axios({
+      method: 'get',
+      url: 'http://ulysse.idequanet.com/ben/web/api/users',
+      headers: {
+        Authorization: `BEARER ${this.token}`
       }
+    })
+      .then(response => {
+        this.users = response.data.data
+        console.log(this.users)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  },
+  methods: {
+    editUser: function(event) {
+      let domScope = event.target.parentNode.parentNode.parentNode;
+      let inputs = domScope.querySelectorAll('.listUsers__table__body-entries input'); 
+
+      if (!event.target.classList.contains('input-editable')) {
+        event.target.classList.add('input-editable')
+        this.msgAction = 'Valider'
+        inputs.forEach(input => input.removeAttribute('disabled'))
+
+      } else {
+        event.target.classList.remove('input-editable')
+        this.msgAction = 'Editer'
+        inputs.forEach(input => input.setAttribute('disabled', 'true'))
+      }
+    },
+
+    deleteUser: function(entry) {
+      // this.users = this.users.filter(users => {
+      //   users.id !== entry.id 
+      // })
+    }, 
+
+    closePopin: function(event) {
+      event.target.parentNode.parentNode.classList.remove('popin-open')
+      // update popin 
+      this.deletedItem = false
+    },
+
+    deleteConfirmationUser: function(event) {
+      let domScope = event.target.parentNode.parentNode.parentNode;
+      // popin appears
+      document.querySelector('.popin').classList.add('popin-open')
+    },
+
+    createUser: function(event) {
+      event.preventDefault()
+      console.log(this.newUser)
+
+      axios({
+        method: 'post',
+        url: 'http://ulysse.idequanet.com/ben/web/api/user/create',
+        data: { 
+          user : {
+            firstname : this.newUser.firstname,
+            lastname : this.newUser.lastname, 
+            email : this.newUser.email, 
+            password : this.newUser.password, 
+            likes: this.newUser.likes
+          } 
+        },
+        headers: {
+          "Access-Control-Allow-Origin": "*"
+        },
+      }).then(response => {
+          this.users.push(response.data.data.user);
+      }).catch(error => {
+          console.log(error);
+      });
+    }
     
   }
 }
