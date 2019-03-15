@@ -45,11 +45,7 @@ export default {
     return {
       title: 'JSON Placeholder',
       msgAction: 'Editer',
-      users : {
-        name:'',
-        username: '',
-        email: ''
-      }
+      users: []
     }
   },
    // lifecycle hooks to GET all users in API
@@ -110,11 +106,10 @@ export default {
             "Content-type": "application/json; charset=UTF-8"
           }
         })
-        .then(function (response) {
+        .then((response) => {
           console.log(response.data);
           console.log('this.users - au moment promesse - vaut: ')
-          console.log(this.users) // non connu ...
-          // this.users = this.users.push(response.data)
+          this.users.push(response.data);
         })
         .catch(function (error) {
           console.log(error);
