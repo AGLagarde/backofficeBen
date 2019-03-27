@@ -1,18 +1,15 @@
 <template>
   <div id="app">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
     <ListUsers />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 import ListUsers from './components/ListUsers.vue'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld,
     ListUsers
   }
 }
