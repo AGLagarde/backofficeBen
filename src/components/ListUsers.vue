@@ -30,34 +30,24 @@
         <th class="listUsers__table__body-entries"><input class="input-name" type="text" disabled="true" v-bind:value="user.lastname" v-on:keyup.enter="editUser"></th>
         <th class="listUsers__table__body-entries"><input class="input-mail" type="text" disabled="true" v-bind:value="user.email" v-on:keyup.enter="editUser"></th>
         <th class="listUsers__table__body-actions">
-          <ul>
-            <button-user
-                title="Editer"
-                :active-button="editButton.activeState"
-                :non-active-button="editButton.nonActiveState">
-            </button-user>
-            <li v-on:click="deleteConfirmationUser">Supprimer</li>
-          </ul>
+          <button-user
+            title="Editer"
+            v-on:click="editUser"
+            :active-button="editButton.activeState"
+            :non-active-button="editButton.nonActiveState">
+          </button-user>
+            
+          <button-user
+            title="Supprimer"
+            v-on:click=""
+            :active-button="editButton.activeState"
+            :non-active-button="editButton.nonActiveState">
+          </button-user>
         </th>
       </tr>
     </table>
 
-    <div class="popin">
-      <div class="popin__confirm" v-if="!deletedItem">
-        <p class="popin__text">Are you sure you want to delete this user from the database ?</p>
-        <a href="#" class="popin__answer popin__answer-validation" v-on:click="deleteUser(user)">Yes</a>
-        <a href="#" class="popin__answer popin__answer-cancelation" v-on:click="closePopin">No</a>
-      </div>
-      <div class="popin__validation" v-if="deletedItem">
-        <img src="../assets/cross-icon.png" alt="close popin" v-on:click="closePopin">
-        <p>User has been correctly deleted ! </p>
-      </div> 
-    </div>
-
-    <!-- cf modele backoffice : https://vuejsexamples.com/basic-vuejs-data-table/ -->
-
   </div>
-  
 </template>
 
 <script>
@@ -95,9 +85,10 @@ export default {
       title: 'Colocataires', 
       msgAction: 'Editer', 
       deletedItem : false, 
-      token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE1NTI2NDI3MzIsImV4cCI6MTU1MjY1MzUzMiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoiYW5uZS5hemF6ZHNzZGZzZGVAaGV0aWMubmV0In0.aNWVAvos3bOAK_TGj8VmgTMwZvJX8kcZrWU0Fqa9zi5K1x1YXxw2NA3jKL82Y_EXsEX0b8rEND6dUAWqDxL-BSAjG05EqQ6al9nIYfMqQTvYPMibD_bjbzspZ-_E_sWYb6IDIGccrVwGMG14HnBTfAm9awzOY2YbRnkdkW7TYOblOuLMnCH_2rEHRYZMEOGMIu2rf-nWkMteac2zfZAzrYFf9DKkdC6wf5DeXI78tLli0K-6TXzpk0RDPFVi3JN0fkXzQ795UoXPrj5NBYqwwg3qiLlMA5rV5Qz-DlcY7XgsN-mEIzpMs8zFkmytLr-UYALCdz8L1YxTG8_PfyaOQrYr1-oRhjkrsVFxSh-6qot7LFoH2vGOA6k4SWiqreCuQDbfLTGWTUaV2RodTr6lacpFympCGsdFKLDjSjA8GcJ53UH4DZe9EvkxsD-WfYmBq7iu9EYDkeTUx6_hYgjjIglLJdKS14sVJqLN7ViecWmRgESOISohCYl8u-HAGCqGBH72wDZ87JHa0MVBp3TmkF9PY4NCqvxMMCp1U_SAqjDB1Q5qqz3FBsbFhEegFj3kp6I_hiVsm4px-rynvlaVxehX4laFRgyK7AD8Nw-d-2Cw79jBxkpAjIuZVMSvt4gajQPWcSTjBB_I9ZUAxhnVM2m_o6arnjbsr5F_ZWzp9Ww'
+      token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE1NTM2NjI1MDYsImV4cCI6MTU1NjI1NDUwNiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoic2RmQHNmLmZyIn0.c883wSdzUJAM3tXxI5YhZ-5MsC7rw_6StJ4JQGJEFM5SYHbfNZhrsgpYLTXofm3qlkdmxCK7N1XBvvtSn-8q4AVhpZlD_uCuEd66zLFiuKUwIL2NMTbjG6d3NasRw5nnf0UTcZUqa1INEOGWASOI5JQR6sWTNbIvTPj6ujthklAqxYUCEwGgSFV35PtYTg64aYzvFixVsQv1PMKrZmfNvRExkWVbzhLiSgfX-3HOQlFuDnPrQiLbBBySx1jrHjtjU8HIw_IZNwi8TKSxF63BJLy-9QmO3_zfiWo1RW_E6YXOUIfPiRGqKw2nxbHuJGc90fqKglx3aCgG8kufAornurm7XdPn0oOZH78vUbXBwGduwuVVtanXKjYiGE96j0KIIGQKVE78zaGgLUCZha4IxXVaP7RUpVT9LKdmE0268OegxGamtLcMVtEW5avx_1PF8T9YbmZ6pWDjrnBeSx_rNLAcae6-b65CdXamiPbs2x-kXJgdh7oaWgyYkJ0onL2QzFJg9kCgTt4qziT3DhutIFCzxDv4gQP9VfCUPd0cyd-rnC4q6u9utY81ncUkStRKNdoV8YPzOc0kKTejEs5cZBpsx2sd4J1nTuoPplesSCFLEz3rNnYw77_Y_c9nADAOEVvtipDq2ifof4KNuqy1sJm8KDDCBhNUPfs4UlgxIrs'
     }
   },
+  // GET METHOD
   created: function() {
     axios({
       method: 'get',
@@ -115,7 +106,9 @@ export default {
       })
   },
   methods: {
-    editUser: function(event) {
+
+    // PUT METHODE
+    editUser(event) {
       let domScope = event.target.parentNode.parentNode.parentNode;
       let inputs = domScope.querySelectorAll('.listUsers__table__body-entries input'); 
 
@@ -131,28 +124,36 @@ export default {
       }
     },
 
-    deleteUser: function(entry) {
-      // this.users = this.users.filter(users => {
-      //   users.id !== entry.id 
-      // })
+    updateUser(event) {
+      event.preventDefault()
+      axios({
+        method: 'PUT',
+        url: 'http://ulysse.idequanet.com/ben/web/api/user/edit',
+        data: { 
+          user : {
+            id: this.newUser.id,
+            firstname : this.newUser.firstname
+          } 
+        },
+        headers: {
+          "Access-Control-Allow-Origin": "*"
+        },
+      }).then(response => {
+        console.log(response.data)
+      }).catch(error => {
+        console.log(error);
+      });
+    },
+
+    updateForm(input) {
+      document.querySelectorAll('.listUsers__add__form input').forEach(function(input) {
+        input.value = ''
+      })
     }, 
 
-    closePopin: function(event) {
-      event.target.parentNode.parentNode.classList.remove('popin-open')
-      // update popin 
-      this.deletedItem = false
-    },
-
-    deleteConfirmationUser: function(event) {
-      let domScope = event.target.parentNode.parentNode.parentNode;
-      // popin appears
-      document.querySelector('.popin').classList.add('popin-open')
-    },
-
-    createUser: function(event) {
+    // POST METHOD
+    createUser(event) {
       event.preventDefault()
-      console.log(this.newUser)
-
       axios({
         method: 'post',
         url: 'http://ulysse.idequanet.com/ben/web/api/user/create',
@@ -169,12 +170,13 @@ export default {
           "Access-Control-Allow-Origin": "*"
         },
       }).then(response => {
-          this.users.push(response.data.data.user);
+        console.log(response.data)
+        this.users.push(response.data.data.user)
+        //updateForm()
       }).catch(error => {
-          console.log(error);
+        console.log(error);
       });
     }
-    
   }
 }
 </script>

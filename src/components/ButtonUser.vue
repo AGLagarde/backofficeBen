@@ -4,9 +4,7 @@
         @mouseleave="toggleIsHover(false)"
         :style="buttonStyle"
         class="button">
-        <p>
-            {{ title }}
-            </p>
+        <p>{{ title }}</p>
     </button>
 </template>
 
@@ -44,9 +42,9 @@
             }
         },
         watch: {
-            isHover() {
-                console.log('is hover a changé')
-            }
+            // isHover() {
+            //     console.log('is hover a changé')
+            // }
         }
     }
 
