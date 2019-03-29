@@ -11,22 +11,6 @@
                 v-on:userUpdated="changeUser"
             >
             </ButtonUser>
-            
-            
-
-            <!-- <button-user
-            title="Editer"
-            v-on:click="editUser"
-            :active-button="editButton.activeState"
-            :non-active-button="editButton.nonActiveState">
-            </button-user>
-            
-            <button-user
-            title="Supprimer"
-            v-on:click=""
-            :active-button="editButton.activeState"
-            :non-active-button="editButton.nonActiveState">
-            </button-user> -->
         </th>
     </tr>
 </template>
@@ -38,6 +22,9 @@
 import ButtonUser from './ButtonUser'
 
 export default {
+    components: {
+        ButtonUser
+    },
     props: [
         "user",
     ],
@@ -45,9 +32,6 @@ export default {
         return {
             currentUser: this.user,
         }
-    } 
-    components: {
-        ButtonUser
     },
     methods: {
         changeUser(user) {
