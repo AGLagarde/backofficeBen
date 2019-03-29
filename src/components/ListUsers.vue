@@ -19,32 +19,13 @@
         <th>Mail</th>
         <th>Actions</th>
       </tr>
-      <tr class="listUsers__table__body" 
-        v-for="(user, index) in users"
-        v-bind:item="user"
-        v-bind:index="index"
+      <SecondOneRow 
+        v-for="(user, index) in users" 
         v-bind:key="user.id"
-        >
-        <th class="listUsers__table__body-entries"><input class="input-firstname" type="text" disabled="true" v-bind:value="user.id"></th> 
-        <th class="listUsers__table__body-entries"><input class="input-firstname" type="text" disabled="true" v-bind:value="user.firstname" v-on:keyup.enter="editUser"></th> 
-        <th class="listUsers__table__body-entries"><input class="input-name" type="text" disabled="true" v-bind:value="user.lastname" v-on:keyup.enter="editUser"></th>
-        <th class="listUsers__table__body-entries"><input class="input-mail" type="text" disabled="true" v-bind:value="user.email" v-on:keyup.enter="editUser"></th>
-        <th class="listUsers__table__body-actions">
-          <button-user
-            title="Editer"
-            v-on:click="editUser"
-            :active-button="editButton.activeState"
-            :non-active-button="editButton.nonActiveState">
-          </button-user>
-            
-          <button-user
-            title="Supprimer"
-            v-on:click=""
-            :active-button="editButton.activeState"
-            :non-active-button="editButton.nonActiveState">
-          </button-user>
-        </th>
-      </tr>
+        v-bind:user="user"
+      >
+
+      </SecondOneRow>
     </table>
 
   </div>
@@ -54,11 +35,12 @@
 import {HTTP} from '../http-constant'
 import axios from 'axios'
 import ButtonUser from './ButtonUser'
+import SecondOneRow from './SecondOneRow'
 
 export default {
   name: 'listUsers',
   components: {
-    ButtonUser
+    SecondOneRow
   },
   data() {
     return {
@@ -107,43 +89,9 @@ export default {
   },
   methods: {
 
-    // PUT METHODE
-    editUser(event) {
-      let domScope = event.target.parentNode.parentNode.parentNode;
-      let inputs = domScope.querySelectorAll('.listUsers__table__body-entries input'); 
+    
 
-      if (!event.target.classList.contains('input-editable')) {
-        event.target.classList.add('input-editable')
-        this.msgAction = 'Valider'
-        inputs.forEach(input => input.removeAttribute('disabled'))
-
-      } else {
-        event.target.classList.remove('input-editable')
-        this.msgAction = 'Editer'
-        inputs.forEach(input => input.setAttribute('disabled', 'true'))
-      }
-    },
-
-    updateUser(event) {
-      event.preventDefault()
-      axios({
-        method: 'PUT',
-        url: 'http://ulysse.idequanet.com/ben/web/api/user/edit',
-        data: { 
-          user : {
-            id: this.newUser.id,
-            firstname : this.newUser.firstname
-          } 
-        },
-        headers: {
-          "Access-Control-Allow-Origin": "*"
-        },
-      }).then(response => {
-        console.log(response.data)
-      }).catch(error => {
-        console.log(error);
-      });
-    },
+   
 
     updateForm(input) {
       document.querySelectorAll('.listUsers__add__form input').forEach(function(input) {

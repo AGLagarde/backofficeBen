@@ -9,18 +9,18 @@
         <th class="listUsers__table__body-entries"><input class="input-name" type="text" disabled="true" v-bind:value="user.lastname" v-on:keyup.enter="editUser"></th>
         <th class="listUsers__table__body-entries"><input class="input-mail" type="text" disabled="true" v-bind:value="user.email" v-on:keyup.enter="editUser"></th>
         <th class="listUsers__table__body-actions">
-            <button-user
+            <ButtonUser
                 title="Editer"
                 :active-button="editButton.activeState"
                 :non-active-button="editButton.nonActiveState">
-            </button-user>
+            </ButtonUser>
             
-            <button-user
+            <ButtonUser
                 title="Supprimer"
                 v-on:click="deleteConfirmationUser"
                 :active-button="editButton.activeState"
                 :non-active-button="editButton.nonActiveState">
-            </button-user>
+            </ButtonUser>
         </th>
     </tr>
 </template>
