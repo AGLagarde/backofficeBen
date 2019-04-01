@@ -3,30 +3,22 @@
         <th class="listUsers__table__body-entries"><input class="input-firstname" type="text" disabled="true">{{ user.id }}</th> 
         <th class="listUsers__table__body-entries"><input class="input-firstname" type="text" disabled="true" v-on:keyup.enter="editUser">{{ user.firstname }}</th> 
         <th class="listUsers__table__body-entries"><input class="input-name" type="text" disabled="true" v-on:keyup.enter="editUser">{{ user.lastname }}</th>
+
+        <!-- placeholder -->
+        <!-- <th class="listUsers__table__body-entries"><input class="input-firstname" type="text" disabled="true" v-on:keyup.enter="editUser">{{ user.username }}</th> 
+        <th class="listUsers__table__body-entries"><input class="input-name" type="text" disabled="true" v-on:keyup.enter="editUser">{{ user.name }}</th> -->
+        <!-- end placeholder -->
+
         <th class="listUsers__table__body-entries"><input class="input-mail" type="text" disabled="true" v-on:keyup.enter="editUser">{{ user.email }}</th>
         <th class="listUsers__table__body-actions">
             <ButtonUser
                 title="Editer"
                 active-button="editButton.activeState"
-                v-on:userUpdated="changeUser"
+                :user="user" 
+                :token="token"
+                v-on:modified-user="receiveModifiedUser"
             >
             </ButtonUser>
-            
-            
-
-            <!-- <button-user
-            title="Editer"
-            v-on:click="editUser"
-            :active-button="editButton.activeState"
-            :non-active-button="editButton.nonActiveState">
-            </button-user>
-            
-            <button-user
-            title="Supprimer"
-            v-on:click=""
-            :active-button="editButton.activeState"
-            :non-active-button="editButton.nonActiveState">
-            </button-user> -->
         </th>
     </tr>
 </template>
@@ -38,20 +30,24 @@
 import ButtonUser from './ButtonUser'
 
 export default {
-    props: [
-        "user",
-    ],
-    data() {
-        return {
-            currentUser: this.user,
-        }
-    } 
     components: {
         ButtonUser
     },
+    props: {
+        user: Object, 
+        token: String
+    },
+    data() {
+        return {
+        }
+    },
     methods: {
-        changeUser(user) {
-            console.log(user);
+        // transmission --> parent ListUser
+        receiveModifiedUser(userUpdated) { 
+            console.log(userUpdated)
+            this.user.firstname = userUpdated.firstname 
+            this.user.lastname = userUpdated.lastname 
+            this.user.email = userUpdated.email 
         }
     }
 }
