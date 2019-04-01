@@ -26,7 +26,8 @@
           <SecondOneRow
             v-for="(user, index) in users"
             v-bind:key="user.id"
-            v-bind:user="user"
+            :user="user"
+            :token="token"
           >
           </SecondOneRow>
       </table>
@@ -67,6 +68,7 @@ export default {
         .then(response => {
             this.users = response.data.data;
             console.log(this.users);
+            console.log(this.token)
         })
         .catch(err => {
             console.log(err);
