@@ -13,10 +13,15 @@
         <th class="listUsers__table__body-actions">
             <ButtonUser
                 title="Editer"
-                active-button="editButton.activeState"
                 :user="user" 
                 :token="token"
                 v-on:modified-user="receiveModifiedUser"
+            >
+            </ButtonUser>
+            <ButtonUser
+                title="Supprimer"
+                :user="user" 
+                :token="token"
             >
             </ButtonUser>
         </th>
@@ -44,7 +49,6 @@ export default {
     methods: {
         // transmission --> parent ListUser
         receiveModifiedUser(userUpdated) { 
-            console.log(userUpdated)
             this.user.firstname = userUpdated.firstname 
             this.user.lastname = userUpdated.lastname 
             this.user.email = userUpdated.email 

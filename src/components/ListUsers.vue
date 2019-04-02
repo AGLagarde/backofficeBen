@@ -45,16 +45,16 @@ export default {
         SecondOneRow
     },
     data() {
-          return {
-              users : [],
-              newUser: {
-                  firstname: '',
-                  lastname: '',
-                  email: '',
-                  password: ''
-              },
-              token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE1NTM2NjI1MDYsImV4cCI6MTU1NjI1NDUwNiwicm9sZXMiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoic2RmQHNmLmZyIn0.c883wSdzUJAM3tXxI5YhZ-5MsC7rw_6StJ4JQGJEFM5SYHbfNZhrsgpYLTXofm3qlkdmxCK7N1XBvvtSn-8q4AVhpZlD_uCuEd66zLFiuKUwIL2NMTbjG6d3NasRw5nnf0UTcZUqa1INEOGWASOI5JQR6sWTNbIvTPj6ujthklAqxYUCEwGgSFV35PtYTg64aYzvFixVsQv1PMKrZmfNvRExkWVbzhLiSgfX-3HOQlFuDnPrQiLbBBySx1jrHjtjU8HIw_IZNwi8TKSxF63BJLy-9QmO3_zfiWo1RW_E6YXOUIfPiRGqKw2nxbHuJGc90fqKglx3aCgG8kufAornurm7XdPn0oOZH78vUbXBwGduwuVVtanXKjYiGE96j0KIIGQKVE78zaGgLUCZha4IxXVaP7RUpVT9LKdmE0268OegxGamtLcMVtEW5avx_1PF8T9YbmZ6pWDjrnBeSx_rNLAcae6-b65CdXamiPbs2x-kXJgdh7oaWgyYkJ0onL2QzFJg9kCgTt4qziT3DhutIFCzxDv4gQP9VfCUPd0cyd-rnC4q6u9utY81ncUkStRKNdoV8YPzOc0kKTejEs5cZBpsx2sd4J1nTuoPplesSCFLEz3rNnYw77_Y_c9nADAOEVvtipDq2ifof4KNuqy1sJm8KDDCBhNUPfs4UlgxIrs'
-          }
+        return {
+            users : [],
+            newUser: {
+                firstname: '',
+                lastname: '',
+                email: '',
+                password: ''
+            },
+            token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE1NTQxOTI3MjcsImV4cCI6MTU1Njc4NDcyNywicm9sZXMiOlsiUk9MRV9VU0VSIl0sImVtYWlsIjoic2RmZHNAc2RmZi5mciJ9.nO9dMs7r6doWBYA8_1CFBoJ_LmeDVsaHs84SzWwZ-SFcvkazfdeuz_tVLpXPScNPLByk2aEO-l8NINWO3KwJFc0EeezeWwWqL24124ZRRuJqQKhkYsvrdQciwQFzYRpw8feCuunv2zyo4kbmMOqw7gDGa7EP2WVuT37idWeOyqrs0ZmcXjLGuO50rUg7oinnqCTl9zIWAB3FDpswN52q_vs-kBoA8G6LTxy36s1lPNyKtwt4I2MpPJuQLfEnApzJ0t0h_MCe914v8ovW7ZPKdwsTMaBki8mAzvHA5Q69Ml3TRa2wcqpSjOIorHA-RoN45jJpXEYwPE_PT5-E1eGwZamarDj4tJu1rVmhzv0o0X72iYryWiuTHgilkyh78L20E6LnKUJfU78_3EFd5sQNQHvSQ-jYcWxFK1hUjJYL4eoJz7b5WSmyNLtLJAivdhxtYmnlGty5K6ecPlcuCDwHtHwk112SxlLjPMdXkcg9KHFGZ5i-xlDvcVoHGC4XCA91vekUryNRVNhzAh0h4AaEfUbCO9jjXXjWgiKBcA1My2i_zubB8XE_zjysRrkwQ4QiDd75ZuGtbvW5-ufvZlrof22C4xsgZFcAJ9cv4fj0m5BNXQw81rq6HEiX7wltcFzVrkHMgJW_Axjkme-gU8sdg22T2UqCpLDrcOTQOl4tzxM'
+        }
     },
       // GET METHOD
     created: function() {
@@ -101,7 +101,6 @@ export default {
             }).then(response => {
                 console.log(response.data);
                 this.users.push(response.data.data.user);
-                //updateForm()
             }).catch(error => {
                 console.log(error);
             });

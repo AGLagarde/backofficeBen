@@ -1,0 +1,50 @@
+
+    .popin {
+        position: fixed;
+        width: 60%;
+        left: 20%;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 180px;
+        padding: 100px 30px;
+        -webkit-box-shadow:  0px 0px 0px 9999px rgba(0, 0, 0, 0.5);
+        box-shadow:  0px 0px 0px 9999px rgba(0, 0, 0, 0.5);
+        font-size: 24px;
+        text-align: center;
+        background: $white;
+        z-index: 5;
+        
+        &__close {
+            width: 50px; 
+            position: absolute;
+            top: 20px; 
+            right: 20px; 
+            cursor: pointer;
+        }
+
+        &__removable {
+            display: flex; 
+            flex-wrap: wrap;
+            justify-content: center;
+
+            &-question {
+                flex: 0 0 1; 
+                padding: 15px 0 40px;
+                width: 90%;
+                line-height: 40px;
+            }
+
+            &-answer {
+                width: 30%;
+                text-decoration: none;
+                color: orange;
+                &:hover {
+                    color: purple;
+                }
+            }
+        }
+
+        
+       
+    }
+  
