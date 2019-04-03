@@ -1,5 +1,4 @@
 <template>
-
     <div>
         <button
             class="button"
@@ -17,35 +16,54 @@
             class="popin"
             v-if="isActive"
         >
-            <img 
-                class="popin__close"
-                src="../assets/cross-icon.png" 
-                alt="close popin" 
-                v-on:click="closePopin"
+            <div class="popin__editable" 
+                v-if="isEditable" 
             >
-            <form action="" 
-                class="popin__editable" 
-                v-if="isEditable === true"
-            >
-                <!-- API -->
-                <input type="text" placeholder="Firstname" v-model="currentUser.firstName">
-                <input type="text" placeholder="Lastname" v-model="currentUser.lastName">
-                <input type="email" placeholder="Email" v-model="currentUser.email">
+                <img 
+                    src="../assets/cross-icon.png" 
+                    alt="close popin" 
+                    class="popin__editable-close"
+                    v-if="isEditable"
+                    v-on:click="isActive = false"
+                >
+                <form action="">
+                    <!-- API -->
+                    <input type="text" placeholder="Firstname" v-model="currentUser.firstName">
+                    <input type="text" placeholder="Lastname" v-model="currentUser.lastName">
+                    <input type="email" placeholder="Email" v-model="currentUser.email">
 
-                <!-- placeholder -->
-                <!-- <input type="text" placeholder="First name" v-model="currentUser.firstName">
-                <input type="text" placeholder="Last name" v-model="currentUser.name"> -->
-                <!-- end placeholder -->
-                <button v-on:click.prevent="updateUser(user.id)">Validation</button>
-            </form>
+                    <!-- placeholder -->
+                    <!-- <input type="text" placeholder="First name" v-model="currentUser.firstName">
+                    <input type="text" placeholder="Last name" v-model="currentUser.name"> -->
+                    <!-- end placeholder -->
+                    <button v-on:click.prevent="updateUser(user.id)">Validation</button>
+                </form>
+            </div>
+            
 
             <div 
                 class="popin__removable"
                 v-else-if="isEditable === false"
             >
-                <span class="popin__removable-question">Êtes vous sûr de vouloir supprimer définitivement cet utilisateur ?</span>
-                <a href="#" class="popin__removable-answer answer-validation" v-on:click.prevent="deleteUser(user.id)">Yes</a>
-                <a href="#" class="popin__removable-answer answer-cancelation">No</a>
+                <div class="popin__removable__step1"
+                    v-if="deletedItem === false">
+                    <span class="popin__removable__step1-question">Êtes vous sûr de vouloir supprimer définitivement l'utilisateur n°{{user.id}}: {{user.firstname + ' ' + user.lastname}} ?</span>
+                    <a 
+                        href="#" class="popin__removable__step1-answer answer-validation" 
+                        v-on:click.prevent="deletedItem = true"
+                    >Yes</a>
+                    <a 
+                        href="#" class="popin__removable__step1-answer answer-cancelation"
+                        v-on:click="closePopin"
+                    >No</a>
+                </div>
+                
+                <div class="popin__removable__step2"
+                    v-if="deletedItem">
+                    <div class="popin__removable__step2-validation">La suppression est effective</div>
+                    <a v-on:click.prevent="deleteUser(user.id)">OK</a>
+                </div>
+                
             </div>  
         </div>
         <!-- end popin -->
@@ -67,6 +85,7 @@ export default {
         return {
             isActive: false,
             isEditable: false, 
+            deletedItem: false,
             currentUser: {     
                 id: '',
                 firstName: '',
@@ -76,8 +95,8 @@ export default {
         }
     },
     methods: {
+        // POPIN BEHAVIOR
         toEdit() {
-            console.log('to edit')
             this.isActive = true
             this.isEditable = true
         },
@@ -85,11 +104,10 @@ export default {
             this.isActive = false
             this.isEditable = false
         },
-        // A FAIRE : erreur actuelle: besoin de recharger la page pour voir la modif... voir cyclehook
+
+        // API : PUT MODIFICATION REQUEST
         updateUser(id) {
             this.currentUser.id = id
-            
-            // API 
             axios({
                 method: 'PUT',
                 url: 'http://ulysse.idequanet.com/ben/web/api/user/edit/' + this.currentUser.id,
@@ -106,14 +124,18 @@ export default {
                 },
             }).then(response => {
                 console.log(response.data.data.user)
-                this.$emit('modified-user', response.data.data.user); // api
+                this.$emit('modified-user', response.data.data.user); 
             }).catch(error => {
                 console.log(error);
             });
         },
+
+        // API : DELETE REQUEST
         deleteUser(id) {
-            console.log(id)
-            console.log(this.user)
+            // -- fake delete -- 
+            this.$emit('delete-user', id); 
+            
+            // -- vrai delete -- 
             // axios({
             //     method: 'DELETE',
             //     url: 'http://ulysse.idequanet.com/ben/web/api/user/delete/' + id,
@@ -122,17 +144,12 @@ export default {
             //         Authorization: `BEARER ${this.token}`
             //     },
             // }).then(response => {
-            //     console.log(response.data.data)
-            //     this.$emit('delete-user', response.data.data.user); // api
+            //     this.$emit('delete-user', id)
+            //     this.deletedItem = true
             // }).catch(error => {
             //     console.log(error);
             // });
         }
-    },
-    watch: {
-        // isHover() {
-        //     console.log('is hover a changé')
-        // }
     }
 }
 

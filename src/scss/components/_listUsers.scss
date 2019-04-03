@@ -33,6 +33,8 @@
         }
 
         &__body {
+            height: 40px;
+            
             &:nth-child(even) {
                 background: #FFF;
             }
