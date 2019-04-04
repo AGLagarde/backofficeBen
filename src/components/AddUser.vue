@@ -50,10 +50,10 @@ export default {
                     "Access-Control-Allow-Origin": "*"
                 },
             }).then(response => {
-                console.log(response.data);
-                this.users.push(response.data.data.user);
+                this.users.push(response.data.data.user)
+                this.$emit('create-user', response.data.data.user.id)
             }).catch(error => {
-                console.log(error);
+                console.log(error)
             });
         }
     }
