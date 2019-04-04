@@ -28,7 +28,7 @@ export default {
         ButtonUser
     },
     props: {
-        user: Object, 
+        user: Object,  // user is one object into users-array
         token: String
     },
     methods: {
@@ -40,7 +40,7 @@ export default {
         }, 
         // API DELETE request transmission --> parent ListUser
         transmitToParent(id) {
-            this.$emit('delete-user-suite', id);
+            this.$emit('delete-user-suite', id)
         }
     }
 }

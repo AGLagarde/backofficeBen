@@ -4,15 +4,17 @@
         <!-- login -->
         <Login 
             v-on:transmit-token="getUsers" 
-            v-bind:users="users"
             ref="getRequest"
         ></Login>
         <!-- end login -->
 
         <h2>Colocataires</h2>
 
-        <!-- ajout user -->
-        <AddUser></AddUser>
+        <!-- ajout user ------ not working -->
+        <AddUser
+            v-on:create-user="updateList" 
+        >
+        </AddUser>
         <!-- end ajout user -->
 
         <!-- liste -->
@@ -24,6 +26,8 @@
                 <th>Mail</th>
                 <th>Actions</th>
             </tr>
+            
+            <!-- une ligne -->
             <OneRow
                 v-for="(user, index) in users"
                 v-bind:key="user.id"
@@ -32,6 +36,8 @@
                 :token="token"
             >
             </OneRow>
+            <!-- end une ligne  -->
+
         </table>
         <!-- end liste -->
     </div>
@@ -41,7 +47,6 @@
 import Login from './Login'
 import OneRow from './OneRow'
 import AddUser from './AddUser'
-import ButtonUser from './ButtonUser'
 
 export default {
     name: 'listUsers',
@@ -52,7 +57,7 @@ export default {
     },
     data() {
         return {
-            users : []
+            users : [] // array of objects
         }
     },
     methods: {
@@ -61,13 +66,13 @@ export default {
             this.token = token
         },
         updateList(id) {
-            this.users = this.users.filter(user => {
-                user.id !== id
-            })
             this.refGetAllUsers()
+            if (document.querySelectorAll('.listUsers__add__form input').value !== '') {
+                this.updateForm()
+            }
         },
         refGetAllUsers() {
-            this.$refs.getRequest.getAllUsers()
+            this.$refs.getRequest.getAllUsers() // ref to Login
         },
         updateForm(input) {
             document.querySelectorAll('.listUsers__add__form input').forEach(function(input) {

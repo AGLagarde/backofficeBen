@@ -28,7 +28,7 @@
                 >
                 <form action="">
                     <!-- API -->
-                    <input type="text" placeholder="Firstname" v-model="currentUser.firstName">
+                    <input type="text" v-model="currentUser.firstName" value="user.id">
                     <input type="text" placeholder="Lastname" v-model="currentUser.lastName">
                     <input type="email" placeholder="Email" v-model="currentUser.email">
 
@@ -87,10 +87,10 @@ export default {
             isEditable: false, 
             deletedItem: false,
             currentUser: {     
-                id: '',
-                firstName: '',
-                lastName: '', 
-                email: ''
+                id: this.user.id,
+                firstName: this.user.firstname,
+                lastName: this.user.lastname, 
+                email: this.user.email
             } 
         }
     },
@@ -124,31 +124,34 @@ export default {
                 },
             }).then(response => {
                 console.log(response.data.data.user)
-                this.$emit('modified-user', response.data.data.user); 
+                this.$emit('modified-user', response.data.data.user) 
+                this.isActive = false
             }).catch(error => {
-                console.log(error);
+                console.log(error)
             });
         },
 
         // API : DELETE REQUEST
         deleteUser(id) {
+            console.log('je delete')
             // -- fake delete -- 
-            this.$emit('delete-user', id); 
+            // this.$emit('delete-user', id); 
+            // this.isActive = false
             
             // -- vrai delete -- 
-            // axios({
-            //     method: 'DELETE',
-            //     url: 'http://ulysse.idequanet.com/ben/web/api/user/delete/' + id,
-            //     headers: {
-            //         'Access-Control-Allow-Origin': '*',
-            //         Authorization: `BEARER ${this.token}`
-            //     },
-            // }).then(response => {
-            //     this.$emit('delete-user', id)
-            //     this.deletedItem = true
-            // }).catch(error => {
-            //     console.log(error);
-            // });
+            axios({
+                method: 'DELETE',
+                url: 'http://ulysse.idequanet.com/ben/web/api/user/delete/' + id,
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    Authorization: `BEARER ${this.token}`
+                },
+            }).then(response => {
+                this.$emit('delete-user', id)
+                this.isActive = false
+            }).catch(error => {
+                console.log(error)
+            });
         }
     }
 }

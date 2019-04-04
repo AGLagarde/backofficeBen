@@ -18,9 +18,7 @@ import axios from 'axios'
 export default {
     name:'Login',
     props: {
-        user: Object,
-        token: String, 
-        users: Array
+        token: String
     }, 
     data() {
         return {
@@ -49,8 +47,8 @@ export default {
                 },
             }).then(response => {
                 console.log('Authenticated');
-                console.log(this.generatedToken)
                 this.generatedToken = response.data.data.token
+                console.log(this.generatedToken)
                 this.getAllUsers()
             }).catch(error => {
                 console.log(error);
@@ -67,11 +65,13 @@ export default {
                 }
             })
             .then(response => {
-                this.getUsers = response.data.data;
+                console.log(response.data)
+                this.getUsers = response.data.data.users
+                // transmission parent ListUser
                 this.$emit('transmit-token', this.getUsers, this.generatedToken)
             })
             .catch(err => {
-                console.log(err);
+                console.log(err)
             })
         }
     }
