@@ -1,23 +1,26 @@
 <template>
-    <div class="listUsers__add">
-        <h4>Wanna add a new user ?</h4>
-        <form action="" class="listUsers__add__form">
-            <input type="text" placeholder="Firstname" v-model:value="newUser.firstname">
-            <input type="text" placeholder="Lastname" v-model:value="newUser.lastname">
-            <input type="email" placeholder="Email" v-model:value="newUser.email">
-            <input type="password" placeholder="Password" v-model:value="newUser.password">
+    <div class="addUser popin">
+        <!-- <img src="../assets/cross-icon.png" alt="close popin" v-on:click="isCreating = false"> -->
+        <img src="../assets/cross-icon.png" alt="close popin" v-on:click="isCreated = false">
+        <form action="" class="addUser__form">
+            <input type="text" class="addUser__form-input" placeholder="Firstname" v-model:value="newUser.firstname">
+            <input type="text" class="addUser__form-input" placeholder="Lastname" v-model:value="newUser.lastname">
+            <input type="email" class="addUser__form-input" placeholder="Email" v-model:value="newUser.email">
+            <input type="password" class="addUser__form-input" placeholder="Password" v-model:value="newUser.password">
             <button v-on:click="createUser">Créer</button>
         </form>
     </div>
 </template>
 
 <script>
+// PB pour is Creating (passé via v-else)... pas initalisé à true comme devrait l'être 
 import axios from 'axios'
 export default {
     name: 'AddUser',
     props: {
         user: Object,
         token: String
+        // isCreating: Boolean - ne fonctionne pas
     }, 
     data() {
         return {
@@ -27,7 +30,7 @@ export default {
                 lastname: '',
                 email: '',
                 password: ''
-            },
+            }
         }
     }, 
     methods: {
@@ -51,6 +54,7 @@ export default {
                 },
             }).then(response => {
                 this.users.push(response.data.data.user)
+                console.log(response.data)
                 this.$emit('create-user', response.data.data.user.id)
             }).catch(error => {
                 console.log(error)

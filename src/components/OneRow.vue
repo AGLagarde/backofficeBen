@@ -1,9 +1,9 @@
 <template>
     <tr class="listUsers__table__body">
-        <th class="listUsers__table__body-entries"><input class="input-firstname" type="text" disabled="true">{{ user.id }}</th> 
-        <th class="listUsers__table__body-entries"><input class="input-firstname" type="text" disabled="true" v-on:keyup.enter="editUser">{{ user.firstname }}</th> 
-        <th class="listUsers__table__body-entries"><input class="input-name" type="text" disabled="true" v-on:keyup.enter="editUser">{{ user.lastname }}</th>
-        <th class="listUsers__table__body-entries"><input class="input-mail" type="text" disabled="true" v-on:keyup.enter="editUser">{{ user.email }}</th>
+        <th class="listUsers__table__body-entries">{{ user.id }}</th> 
+        <th class="listUsers__table__body-entries">{{ user.firstname }}</th> 
+        <th class="listUsers__table__body-entries">{{ user.lastname }}</th>
+        <th class="listUsers__table__body-entries">{{ user.email }}</th>
         <th class="listUsers__table__body-actions">
             <ButtonUser
                 title="Editer"
@@ -24,6 +24,7 @@
 import ButtonUser from './ButtonUser'
 
 export default {
+    name: 'oneRow',
     components: {
         ButtonUser
     },

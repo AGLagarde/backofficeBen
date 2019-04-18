@@ -2,23 +2,24 @@
     width: 100%; 
     margin: 0 auto;
 
-    &__add {
-        text-align: left;
-        margin-bottom: 50px; 
-        background-color: #ccc;
+    &__actions {
+        display: flex; 
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        align-items: center;
+        margin: 15px 0;
+        padding: 0 15px 0 10px;
 
-        &__form {
-            input {
-                margin-right: 25px; 
-                height: 30px; 
-                width: 250px;
-                font-size: 20px; 
-                color: blue;
-            }
-
-            button {
-                height: 30px; 
-                width: 50px;
+        &-addButton {
+            width: 100px;
+            border: none;
+            outline: none;
+            border-radius: 20px;
+            box-shadow: 0 5px 3px rgba(black, .1);
+            padding: 10px 20px;
+            &:hover {
+                background-color: blue;
+                color: $white;
             }
         }
     }
@@ -40,23 +41,15 @@
             }
 
             &-entries {
-                input[disabled] {
-                    background-color: transparent; 
-                    border: none;
-                    color: #000;
-                }
-
-                input {
-                    text-align: center;
-                    border: none;
-                    border-bottom: 1px solid blue;
-                    color: blue;
-                    background-color: transparent;
-                    cursor: text;
+                width: calc(100%/4);
+                background-color: red;
+                &:first-child {
+                    width: auto; 
                 }
             }
 
             &-actions {
+                width: 20%;
                 ul {
                     list-style-type: none;
                     display: flex;
@@ -71,7 +64,7 @@
                     cursor: pointer;
 
                     &:hover {
-                        background-color: $bluedark;
+                        background-color: orange;
                         color: $white;
                     }
 
