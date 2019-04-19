@@ -7,7 +7,7 @@
         </button>
         <button
             class="buttonRow"
-            v-on:click="isActive = true">
+            v-on:click="isActive=true">
             Supprimer
         </button>
 
@@ -33,7 +33,6 @@
                     <button v-on:click.prevent="updateUser(user.id)">Validation</button>
                 </form>
             </div>
-            
 
             <div 
                 class="popin__removable"
@@ -66,16 +65,17 @@
 </template>
 
 <script>
+import store from '../store/index'
 import axios from 'axios'
 
 export default {
     name:'button-user',
     props: {
-        user: Object, 
-        token: String
+        user: Object
     },
     data() {
         return {
+            token: store.token,
             isActive: false,
             isEditable: false, 
             deletedItem: false,
@@ -125,6 +125,7 @@ export default {
         },
 
         // API : DELETE REQUEST
+        // @todo actualiser la liste au clic
         deleteUser(id) {
             console.log('je delete')
             // -- fake delete -- 

@@ -1,10 +1,10 @@
 <template>
-    <tr class="listUsers__table__body">
-        <th class="listUsers__table__body-entries">{{ user.id }}</th> 
-        <th class="listUsers__table__body-entries">{{ user.firstname }}</th> 
-        <th class="listUsers__table__body-entries">{{ user.lastname }}</th>
-        <th class="listUsers__table__body-entries">{{ user.email }}</th>
-        <th class="listUsers__table__body-actions">
+    <tr class="listItems__table__body">
+        <th class="listItems__table__body-entries">{{ user.id }}</th>
+        <th class="listItems__table__body-entries">{{ user.firstname }}</th>
+        <th class="listItems__table__body-entries">{{ user.lastname }}</th>
+        <th class="listItems__table__body-entries">{{ user.email }}</th>
+        <th class="listItems__table__body-actions">
             <ButtonUser
                 title="Editer"
                 :user="user" 
@@ -20,17 +20,21 @@
 
 
 <script>
-
+import store from '../store/index'
 import ButtonUser from './ButtonUser'
 
 export default {
-    name: 'oneRow',
+    name: 'oneRowUser',
     components: {
         ButtonUser
     },
     props: {
-        user: Object,  // user is one object into users-array
-        token: String
+        user: Object
+    },
+    data() {
+        return {
+            token: store.token
+        }
     },
     methods: {
         // API PUT request transmission --> parent ListUser
