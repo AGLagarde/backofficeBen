@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/Cellar/yarn/1.5.1_1/libexec/bin/yarn.js i vue-loader
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.5.1_1/libexec/bin/yarn.js start
 
 PATH: 
   /usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin
@@ -25,7 +25,8 @@ npm manifest:
     },
     "dependencies": {
       "axios": "^0.18.0",
-      "vue": "^2.5.21"
+      "vue": "^2.5.21",
+      "vue-router": "^3.0.2"
     },
     "devDependencies": {
       "@vue/cli-plugin-babel": "^3.3.0",
@@ -8145,7 +8146,7 @@ Lockfile:
       strip-indent "^2.0.0"
 
 Trace: 
-  Error: Command "i" not found.
+  Error: Command "start" not found.
       at new MessageError (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:186:110)
       at /usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:87307:17
       at Generator.next (<anonymous>)

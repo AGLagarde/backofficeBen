@@ -15,6 +15,8 @@
 
 <script>
 import axios from 'axios'
+import store from '../store/index'
+
 export default {
     name:'Login',
     props: {
@@ -27,7 +29,8 @@ export default {
             connexion: {
                 email: '',
                 password: ''
-            }
+            }, 
+            isConnected: false
         }
     }, 
     methods: {
@@ -46,33 +49,14 @@ export default {
                     "Access-Control-Allow-Origin": "*"
                 },
             }).then(response => {
-                console.log('Authenticated');
-                this.generatedToken = response.data.data.token
-                console.log(this.generatedToken)
-                this.getAllUsers()
-            }).catch(error => {
-                console.log(error);
-            });
-        },
-
-        // API: GET request
-        getAllUsers() {
-            axios({
-                method: 'get',
-                url: 'http://ulysse.idequanet.com/ben/web/api/users',
-                headers: {
-                    Authorization: `BEARER ${this.generatedToken}`
-                }
-            })
-            .then(response => {
+                console.log('Authenticated')
                 console.log(response.data)
-                this.getUsers = response.data.data.users
-                // transmission parent ListUser
-                this.$emit('transmit-token', this.getUsers, this.generatedToken)
-            })
-            .catch(err => {
-                console.log(err)
-            })
+                store.token = response.data.data.token
+                console.log(store.token) // stocke store
+                this.$router.push({ path: 'users' })
+            }).catch(error => {
+                console.log(error)
+            });
         }
     }
 }

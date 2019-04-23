@@ -1,13 +1,13 @@
 <template>
     <div>
         <button
-            class="button"
+            class="buttonRow"
             v-on:click="toEdit">
             Editer
         </button>
         <button
-            class="button"
-            v-on:click="isActive = true">
+            class="buttonRow"
+            v-on:click="isActive=true">
             Supprimer
         </button>
 
@@ -27,19 +27,12 @@
                     v-on:click="isActive = false"
                 >
                 <form action="">
-                    <!-- API -->
                     <input type="text" v-model="currentUser.firstName" value="user.id">
                     <input type="text" placeholder="Lastname" v-model="currentUser.lastName">
                     <input type="email" placeholder="Email" v-model="currentUser.email">
-
-                    <!-- placeholder -->
-                    <!-- <input type="text" placeholder="First name" v-model="currentUser.firstName">
-                    <input type="text" placeholder="Last name" v-model="currentUser.name"> -->
-                    <!-- end placeholder -->
                     <button v-on:click.prevent="updateUser(user.id)">Validation</button>
                 </form>
             </div>
-            
 
             <div 
                 class="popin__removable"
@@ -63,7 +56,6 @@
                     <div class="popin__removable__step2-validation">La suppression est effective</div>
                     <a v-on:click.prevent="deleteUser(user.id)">OK</a>
                 </div>
-                
             </div>  
         </div>
         <!-- end popin -->
@@ -73,16 +65,17 @@
 </template>
 
 <script>
+import store from '../store/index'
 import axios from 'axios'
 
 export default {
     name:'button-user',
     props: {
-        user: Object, 
-        token: String
+        user: Object
     },
     data() {
         return {
+            token: store.token,
             isActive: false,
             isEditable: false, 
             deletedItem: false,
@@ -132,6 +125,7 @@ export default {
         },
 
         // API : DELETE REQUEST
+        // @todo actualiser la liste au clic
         deleteUser(id) {
             console.log('je delete')
             // -- fake delete -- 

@@ -1,11 +1,12 @@
 <template>
   <div id="app">
-    <ListUsers />
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 import ListUsers from './components/ListUsers.vue'
+
 
 export default {
   name: 'app',

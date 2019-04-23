@@ -1,33 +1,37 @@
 <template>
-    <div class="listUsers__add">
-        <h4>Wanna add a new user ?</h4>
-        <form action="" class="listUsers__add__form">
-            <input type="text" placeholder="Firstname" v-model:value="newUser.firstname">
-            <input type="text" placeholder="Lastname" v-model:value="newUser.lastname">
-            <input type="email" placeholder="Email" v-model:value="newUser.email">
-            <input type="password" placeholder="Password" v-model:value="newUser.password">
+    <div class="addItem popin">
+        <!-- <img src="../assets/cross-icon.png" alt="close popin" v-on:click="isCreating = false"> -->
+        <!--<img src="../assets/cross-icon.png" alt="close popin" v-on:click="isCreated = false">-->
+        <form action="" class="addItem__form">
+            <input type="text" class="addItem__form-input" placeholder="Firstname" v-model:value="newUser.firstname">
+            <input type="text" class="addItem__form-input" placeholder="Lastname" v-model:value="newUser.lastname">
+            <input type="email" class="addItem__form-input" placeholder="Email" v-model:value="newUser.email">
+            <input type="password" class="addItem__form-input" placeholder="Password" v-model:value="newUser.password">
+            <span v-on:click="goback">Annuler</span>
             <button v-on:click="createUser">Créer</button>
         </form>
     </div>
 </template>
 
 <script>
+import store from '../store/index'
 import axios from 'axios'
+
 export default {
     name: 'AddUser',
     props: {
-        user: Object,
-        token: String
+        user: Object
     }, 
     data() {
         return {
+            token: store.token,
             users : [],
             newUser: {
                 firstname: '',
                 lastname: '',
                 email: '',
                 password: ''
-            },
+            }
         }
     }, 
     methods: {
@@ -42,8 +46,7 @@ export default {
                         firstname : this.newUser.firstname,
                         lastname : this.newUser.lastname,
                         email : this.newUser.email,
-                        password : this.newUser.password,
-                        likes: this.newUser.likes
+                        password : this.newUser.password
                     }
                 },
                 headers: {
@@ -51,10 +54,21 @@ export default {
                 },
             }).then(response => {
                 this.users.push(response.data.data.user)
-                this.$emit('create-user', response.data.data.user.id)
+                console.log(response.data)
+                this.goback()
             }).catch(error => {
                 console.log(error)
             });
+        },
+        goback() {
+            console.log('go back')
+            this.updateForm();
+            this.$router.push({ path: '/users' })
+        },
+        updateForm(input) {
+            document.querySelectorAll('.listUsers__add__form input').forEach(function(input) {
+                input.value = ''
+            })
         }
     }
 }

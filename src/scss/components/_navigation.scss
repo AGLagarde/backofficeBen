@@ -1,0 +1,21 @@
+.navigation {
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    right: 0;
+    margin: 0;
+    height: 50px;
+    background-color: yellow;
+    list-style-type: none;
+    display: flex; 
+    justify-content: space-around;
+    align-items: center;
+    &__item {
+        width: calc(100%/3);
+        border-left: 1px solid #CCC; 
+        height: 100%; 
+        &:first-child {
+           border: none;
+       }
+    }
+}
