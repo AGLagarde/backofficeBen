@@ -7,9 +7,17 @@
         <button v-on:click.prevent="login(connexion.email, connexion.password)">ME CONNECTER</button> -->
 
         <!-- EN DUR  -->
-        <input type="email" placeholder="email" value="admin@hetic.net">
-        <input type="password" placeholder="mot de passe" value="admin">
-        <button v-on:click.prevent="login('admin@hetic.net', 'admin')">ME CONNECTER</button>
+        <div>
+            <label for="email" class="login__label" >Login</label>
+            <input class="login__input" type="email" placeholder="email" name="email"  value="admin@hetic.net">
+        </div>
+        
+        <div>
+            <label for="password" class="login__label" >Password</label>
+            <input class="login__input" type="password" name="password" placeholder="mot de passe" value="admin">
+        </div>
+        
+        <button class="login__button" v-on:click.prevent="login('admin@hetic.net', 'admin')">CONNECT</button>
     </div>
 </template>
 
@@ -50,7 +58,6 @@ export default {
                 },
             }).then(response => {
                 console.log('Authenticated')
-                console.log(response.data)
                 store.token = response.data.data.token
                 console.log(store.token) // stocke store
                 this.$router.push({ path: 'users' })

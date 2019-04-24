@@ -2,61 +2,61 @@
 <template>
     <div class="container">
         <div class="listItems">
-            <ul class="navigation">
-                <li class="navigation__item">
-                    <router-link :to="{ name: 'users'}">COLOCATAIRES</router-link>
-                </li>
-                <li class="navigation__item">
-                    <router-link :to="{ name: 'houses'}">COLOCATION</router-link>
-                </li>
-                <li class="navigation__item">TÂCHES</li>
-            </ul>
-
+            <Navigation></Navigation>
+            
             <div class="listItems__actions">
-                <!-- search -->
+
+                <!-- <SearchBar 
+                    v-bind:users="users"
+                    v-on:filter-users="filteredUsersResults"
+                ></SearchBar> -->
                 <div class="searchbar">
-                    <input 
-                        type="text" 
-                        placeholder="Search" 
-                        maxlength= "12" 
+                    <input
+                        type="text"
+                        placeholder="Search"
+                        maxlength= "12"
                         class="searchbar__input"
-                        v-model="search" 
+                        v-model="search"
                         v-on:keyup="isFiltered = true"
                     >
-                    <img 
-                        src="../assets/searchbar.png" 
-                        alt="search button" 
+                    <img
+                        src="../assets/searchbar.png"
+                        alt="search button"
                         class="searchbar__button"
                     >
-                </div>
-                <!-- end search  -->
-
-                <!-- add user ------ not working -->
+                </div><!-- end search  -->
+               
+               <!-- add user -->
                 <span 
                     class="listItems__actions-addButton"
                     v-if="isCreating === false"
                     v-on:click="createForm"
-                >Nouvel utilisateur</span>
-                <!--<AddUser-->
-                <!-- end add user -->
+                >Add User</span>
             </div>
 
             <!-- liste -->
-            <table class="listItems__table">
+            <table class="listItems__table users">
                 <tr class="listItems__table__head">
                     <th>#</th>
-                    <th>Prénom</th>
-                    <th>Nom</th>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
                     <th>Mail</th>
+                    <th>House</th>
                     <th>Actions</th>
                 </tr>
                 
-                <!-- une ligne -->
-                <OneRowUser
-                    v-for="user in filteredUsers" 
+                <UserOneRow
+                    v-for="user in filteredUsers"
                     v-bind:key="user.id"
                     :user="user"
-                ></OneRowUser>
+                ></UserOneRow>
+
+                <!-- une ligne -->
+                <!-- with composant : <UserOneRow
+                    v-for="user in filteredUsersResults" 
+                    v-bind:key="user.id"
+                    :user="user"
+                ></UserOneRow> -->
                 <!-- end une ligne -->
             </table>
             <!-- end liste -->
@@ -68,15 +68,19 @@
 import store from '../store/index'
 import axios from 'axios'
 import Login from './Login'
-import OneRowUser from './OneRowUser'
-import AddUser from './AddUser'
+import Navigation from './Navigation'
+// import SearchBar from './SearchBar'
+import UserOneRow from './UserOneRow'
+import UserAdd from './UserAdd'
 
 export default {
-    name: 'listUsers',
+    name: 'usersList',
     components: {
         Login,
-        AddUser,
-        OneRowUser
+        Navigation,
+        // SearchBar,
+        UserAdd,
+        UserOneRow
     },
     data() {
         return {
@@ -105,8 +109,17 @@ export default {
                 }
             })
             .then(response => {
-                console.log(response.data.data)
                 this.users = response.data.data.users
+                console.log(this.users)
+
+                // pourquoi ne fonctionne pas avec !user.house ??? 
+                this.users.forEach(user => {
+                    if (user.house !== null) {
+                        user.house = user.house.name
+                    } else {
+                        user.house = 'oooo'
+                    }
+                });
             })
             .catch(err => {
                 console.log(err)
@@ -116,6 +129,11 @@ export default {
             console.log('ty go');
             this.$router.push({ path: 'users/create' })
         }
+        // component Searchbar
+        // filteredUsersResults(results) {
+        //     console.log('mes results :', results)
+        //     this.users = results;
+        // }
     },
     computed: {
         filteredUsers() {

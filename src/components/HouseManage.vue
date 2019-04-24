@@ -1,14 +1,13 @@
 <template>
     <div>
-        <!-- popin -->
-        <div class="popin">
+        <div class="">
             <div class="popin__editable">
-                <img src="../assets/cross-icon.png" alt="close popin" class="popin__editable-close" v-on:click="goBack">
+                <img src="../assets/cross-icon.png" alt="close popin" class="popin__editable-close">
                 <p>HELLOOOOO</p>
-                <!--<form action="">-->
-                    <!--<input type="email" placeholder="john.doe@gmail.com" value="email">-->
-                    <!--<button v-on:click.prevent="sendInvitationHouse('anne.tiberghien@gmail.com')">Validation</button>-->
-                <!--</form>-->
+                <form action="">
+                    <input type="email" placeholder="john.doe@gmail.com" value="email">
+                    <button v-on:click.prevent="sendInvitationHouse('anne.tiberghien@gmail.com')">Validation</button>
+                </form>
             </div>
         </div><!-- end popin -->
     </div>
@@ -19,24 +18,27 @@ import store from '../store/index'
 import axios from 'axios'
 
 export default {
-    name:'button-house',
+    name:'house-manage',
     props: {
-        house: Object
+        currentHouse: Object
     },
     data() {
         return {
             token: store.token,
-            currentHouse: {
-                id: this.house.id,
-                name: this.house.name,
-                users: this.house.users
+            houseInvited: {
+                // id: this.currentHouse.id,
+                // name: this.currentHouse.name,
+                // users: this.currentHouse.users
             }
         }
+    },
+    mounted() {
+        console.log(this.houseInvited)
     },
     methods: {
         goback() {
             console.log('go back')
-            this.updateForm();
+            // this.updateForm();
             this.$router.push({ path: '/houses' })
         },
         sendInvitationHouse(mail) {

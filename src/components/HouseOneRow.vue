@@ -7,13 +7,13 @@
             <span>{{ house.users }}</span>
         </th>
         <th class="listItems__table__body-actions">
-            <ButtonHouse
+            <HouseButton
                 title="Editer"
                 :house="house"
                 v-on:modified-house="receiveModifiedHouse"
                 v-on:delete-house="transmitToParent"
             >
-            </ButtonHouse>
+            </HouseButton>
         </th>
     </tr>
 </template>
@@ -22,12 +22,12 @@
 
 <script>
 import store from '../store/index'
-import ButtonHouse from './ButtonHouse'
+import HouseButton from './HouseButton'
 
 export default {
-    name: 'oneRowHouse',
+    name: 'houseOneRow',
     components: {
-        ButtonHouse
+        HouseButton
     },
     props: {
         house: Object

@@ -5,11 +5,13 @@ import './scss/styles.scss'
 
 // components:
 import Login from './components/Login'
-import ListUsers from './components/ListUsers.vue'
-import AddUser from './components/AddUser.vue'
-import ListHouses from './components/ListHouses.vue'
-import AddHouse from './components/AddHouse.vue'
-import ManageHouse from './components/ManageHouse.vue'
+import Navigation from './components/Navigation'
+import SearchBar from './components/SearchBar'
+import UsersList from './components/UsersList.vue'
+import UserAdd from './components/UserAdd.vue'
+import HousesList from './components/HousesList.vue'
+import HouseAdd from './components/HouseAdd.vue'
+import HouseManage from './components/HouseManage.vue'
 
 Vue.use(VueRouter)
 
@@ -18,11 +20,11 @@ Vue.config.productionTip = false
 
 const routes = [
   { path: '/login', component: Login },
-  { path: '/users', component: ListUsers, name:'users'},
-  { path: '/users/create', component: AddUser },
-  { path: '/houses', component: ListHouses, name:'houses'},
-  { path: '/houses/create', component: AddHouse },
-  { path: '/houses/manage-house', component: ManageHouse }
+  { path: '/users', component: UsersList, name:'users'},
+  { path: '/users/create', component: UserAdd },
+  { path: '/houses', component: HousesList, name:'houses'},
+  { path: '/houses/create', component: HouseAdd },
+  { path: '/houses/manage-house', component: HouseManage }
 ]
 
 // pourquoi avoir un rooter/index.js ?!

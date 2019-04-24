@@ -4,15 +4,16 @@
         <th class="listItems__table__body-entries">{{ user.firstname }}</th>
         <th class="listItems__table__body-entries">{{ user.lastname }}</th>
         <th class="listItems__table__body-entries">{{ user.email }}</th>
+        <th class="listItems__table__body-entries">{{ user.house }}</th>
         <th class="listItems__table__body-actions">
-            <ButtonUser
+            <UserButton
                 title="Editer"
                 :user="user" 
                 :token="token"
                 v-on:modified-user="receiveModifiedUser"
                 v-on:delete-user="transmitToParent"
             >
-            </ButtonUser>
+            </UserButton>
         </th>
     </tr>
 </template>
@@ -21,12 +22,12 @@
 
 <script>
 import store from '../store/index'
-import ButtonUser from './ButtonUser'
+import UserButton from './UserButton'
 
 export default {
-    name: 'oneRowUser',
+    name: 'userOneRow',
     components: {
-        ButtonUser
+        UserButton
     },
     props: {
         user: Object
@@ -41,7 +42,8 @@ export default {
         receiveModifiedUser(userUpdated) { 
             this.user.firstname = userUpdated.firstname 
             this.user.lastname = userUpdated.lastname 
-            this.user.email = userUpdated.email 
+            this.user.email = userUpdated.email
+            this.user.house = userUpdated.house
         }, 
         // API DELETE request transmission --> parent ListUser
         transmitToParent(id) {

@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import ListUsers from '@/components/ListUsers'
-import ListHouses from '@/components/ListHouses'
-import ManageHouse from '@/components/ManageHouse'
+import UsersList from '@/components/UsersList'
+import HousesList from '@/components/HousesList'
+import HouseManage from '@/components/HouseManage'
 
 Vue.use(Router)
 // QUESTION : pourquoi pas de routes vers LOGIN ? Pourtant fonctionnel...
@@ -14,9 +14,9 @@ export default new Router({
     {
       path: '/users',
       name: 'users',
-      component: ListUsers,
+      component: UsersList,
       children: [
-        {path: 'create', name: 'create-user', component: AddUser} // creation
+        {path: 'create', name: 'create-user', component: UserAdd} // creation
       ]
     },
 
@@ -24,10 +24,10 @@ export default new Router({
     {
       path: '/houses',
       name: 'houses',
-      component: ListHouses,
+      component: HousesList,
         children: [
-          {path: 'create', name: 'create-house', component: AddHouse} // creation
-          {path: 'manage-house', name: 'manage-house', component: ManageHouse} // modify
+          {path: 'create', name: 'create-house', component: HouseAdd} // creation
+          {path: 'house-manage', name: 'house-manage', component: HouseManage} // modify
         ]
     }
   ]
