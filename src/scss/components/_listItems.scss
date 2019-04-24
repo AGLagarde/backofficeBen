@@ -1,53 +1,57 @@
 .listItems {
-    width: 100%; 
-    margin: 0 auto;
+    width: calc(100% - #{$widthNav}); 
+    margin-left: $widthNav;
 
     &__actions {
         display: flex; 
         flex-wrap: nowrap;
         justify-content: space-between;
         align-items: center;
-        margin: 15px 0;
+        margin: 15px 0 50px;
         padding: 0 15px 0 10px;
 
         &-addButton {
             width: 100px;
-            border: none;
-            outline: none;
-            border-radius: 20px;
-            box-shadow: 0 5px 3px rgba(black, .1);
-            padding: 10px 20px;
-            &:hover {
-                background-color: blue;
-                color: $white;
-            }
+            @include button_gradient();
         }
     }
 
     &__table {
         width: 100%; 
-        background-color: $grey;
         color: $bluedark;
-
+        border-spacing: 0;
+        border-spacing: 0px 10px;
+        background-color: rgba(150, 150, 150, 0.2); 
+        &.users {
+            &__body {
+                &-entries {
+                    width: calc(100%/5);
+                }
+            }
+        }
+        &.houses {
+            &__body {
+                &-entries {
+                    width: calc(100%/4);
+                }
+            }
+        }
+        &__head, 
+        &__body {
+            height: 50px;
+        }
         &__head {
             text-transform: uppercase;
+            @include font (20px, $grey);
         }
-
         &__body {
-            height: 40px;
-            
-            &:nth-child(even) {
-                background: #FFF;
-            }
-
+            background: $white;
             &-entries {
-                width: calc(100%/4);
-                background-color: red;
+                @include font (18px, $greyInk, 300);
                 &:first-child {
                     width: auto; 
                 }
             }
-
             &-actions {
                 width: 20%;
                 ul {
@@ -61,7 +65,6 @@
                     margin: 0 10px;
                     border: 1px solid $bluedark; 
                     border-radius: 10px;
-                    cursor: pointer;
 
                     &:hover {
                         background-color: orange;
@@ -69,11 +72,11 @@
                     }
 
                     &:last-child {
-                        border-color: $red; 
-                        color: $red; 
+                        border-color: green; 
+                        color: green; 
 
                         &:hover {
-                            background-color: $red; 
+                            background-color: green; 
                             color: $white;
                         }
                     }
@@ -84,7 +87,6 @@
                         color: $white;
                     }
                 }
-
             }
         }
     }

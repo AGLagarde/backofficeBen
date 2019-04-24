@@ -5,13 +5,13 @@
 </template>
 
 <script>
-import ListUsers from './components/ListUsers.vue'
+import UsersList from './components/UsersList.vue'
 
 
 export default {
   name: 'app',
   components: {
-    ListUsers
+    UsersList
   }
 }
 </script>

@@ -3,20 +3,22 @@
         <button
             class="buttonRow"
             v-on:click="manageHouse">
-            Modifier
+            Invitation
         </button>
         <button
             class="buttonRow"
             v-on:click="isActive = true">
-            Supprimer
+            Delete
         </button>
 
-        <!-- popin -->
+        <!-- <HouseManage v-bind:currentHouse="currentHouse"></HouseManage> -->
+
+        <!-- popin delete -->
         <div class="popin" v-if="isActive">
             <div class="popin__removable" if="isEditable === false">
                 <div class="popin__removable__step1"
                     v-if="deletedItem === false">
-                    <span class="popin__removable__step1-question">Êtes vous sûr de vouloir supprimer définitivement l'utilisateur n°{{house.id}}: {{house.name}} ?</span>
+                    <span class="popin__removable__step1-question">Are you sure to delete the house <strong>{{house.name}}</strong> for good ?</span>
                     <a 
                         href="#" class="popin__removable__step1-answer answer-validation" 
                         v-on:click.prevent="deletedItem = true"
@@ -40,12 +42,12 @@
 <script>
 import store from '../store/index'
 import axios from 'axios'
-import ManageHouse from './ManageHouse'
+import HouseManage from './HouseManage'
 
 export default {
-    name:'button-house',
+    name:'house-button',
     components: {
-        ManageHouse
+        HouseManage
     },
     props: {
         house: Object
@@ -73,30 +75,9 @@ export default {
             this.isActive = false
             this.isEditable = false
         },
-        sendInvitationHouse(mail) {
-            console.log(email);
-            axios({
-                method: 'POST',
-                url: 'http://ulysse.idequanet.com/ben/web/api/house/send-invitation/',
-                data: {
-                    email: mail
-                },
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    Authorization: `BEARER ${this.token}`
-                },
-            }).then(response => {
-                console.log(response.data)
-                console.log('envoye')
-                this.$emit('modified-house', response.data)
-                this.isActive = false
-            }).catch(error => {
-                console.log(error)
-            });
-        },
         manageHouse() {
             console.log('laisse moi manager')
-            this.$router.push({ path: 'houses/manage-house' })
+            this.$router.push({ path: 'houses/house-manage' })
         },
         // API : DELETE REQUEST
         deleteHouse(id) {

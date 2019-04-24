@@ -1,11 +1,17 @@
 <template>
-    <div class="addItem popin">
+    <div class="addItem">
         <!-- <img src="../assets/cross-icon.png" alt="close popin" v-on:click="isCreating = false"> -->
         <!--<img src="../assets/cross-icon.png" alt="close popin" v-on:click="isCreated = false">-->
-        <form action="" class="addItem__form">
-            <input type="text" class="addItem__form-input" placeholder="Nom de la colocation" v-model:value="newHouse.name">
-            <span v-on:click="goback">Annuler</span>
-            <button v-on:click="createHouse">Créer</button>
+        <form action="" class="item__form">
+            <div>
+                <label for="housename" class="item__form-label" >Firstname</label>
+                <input type="text" class="item__form-input" placeholder="Nom de la colocation" 
+                name="housename" v-model:value="newHouse.name">
+            </div>
+            <div>
+                <input v-on:click="goback" type="submit" name="action" value="Annuler" class="item__form-submit" />
+                <input v-on:click="createHouse" type="submit" name="action" value="Créer" class="item__form-submit" />
+            </div>
         </form>
     </div>
 </template>
@@ -15,7 +21,7 @@
     import axios from 'axios'
 
     export default {
-        name: 'AddHouse',
+        name: 'houseAdd',
         props: {
             house: Object
         },

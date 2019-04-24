@@ -2,20 +2,11 @@
 <template>
     <div class="container">
         <div class="listItems">
-            <ul class="navigation">
-                <li class="navigation__item">
-                    <router-link :to="{ name: 'users'}">COLOCATAIRES</router-link>
-                </li>
-                <li class="navigation__item">
-                    <router-link :to="{ name: 'houses'}">COLOCATION</router-link>
-                </li>
-                <li class="navigation__item">
-                    <router-link :to="{ name: 'tasks'}">TÂCHES</router-link>
-                </li>
-            </ul>
-
+           
+            <Navigation></Navigation>
+            
             <div class="listItems__actions">
-                <!-- search -->
+                <!-- <SearchBar></SearchBar> -->
                 <div class="searchbar">
                     <input
                         type="text"
@@ -30,34 +21,33 @@
                         alt="search button"
                         class="searchbar__button"
                     >
-                </div>
-                <!-- end search  -->
+                </div><!-- end search  -->
 
                 <!-- add house ------ not working -->
                 <span
-                    class="listUsers__actions-addButton"
+                    class="listItems__actions-addButton"
                     v-if="isCreating === false"
                     v-on:click="createForm"
-                >Nouvelle colocation</span>
+                >Add House</span>
                 <!-- end add house -->
             </div>
 
             <!-- liste -->
-            <table class="listItems__table">
+            <table class="listItems__table houses">
                 <tr class="listItems__table__head">
                     <th>#</th>
-                    <th>Nom</th>
-                    <th>Date de création</th>
-                    <th>Colocataires</th>
+                    <th>Name</th>
+                    <th>Created</th>
+                    <th>Room-Mates</th>
                     <th>Actions</th>
                 </tr>
 
                 <!-- une ligne -->
-                <OneRowHouse
+                <HouseOneRow
                     v-for="house in filteredHouses"
                     v-bind:key="house.id"
                     :house="house"
-                ></OneRowHouse>
+                ></HouseOneRow>
                 <!-- end une ligne -->
             </table>
             <!-- end liste -->
@@ -69,13 +59,17 @@
     import store from '../store/index'
     import axios from 'axios'
     import Login from './Login'
-    import OneRowHouse from './OneRowHouse'
+    import Navigation from './Navigation'
+    import SearchBar from './SearchBar'
+    import HouseOneRow from './HouseOneRow'
 
     export default {
         name: 'listHouses',
         components: {
             Login,
-            OneRowHouse
+            Navigation,
+            SearchBar,
+            HouseOneRow
         },
         data() {
             return {
@@ -83,7 +77,8 @@
                 houses : [],
                 isCreating: false,
                 search: '',
-                isFiltered: true
+                isFiltered: true,
+                userDataVue: []
             }
         },
         mounted() {
@@ -106,14 +101,20 @@
                         Authorization: `BEARER ${this.token}`
                     }
                 })
-                    .then(response => {
-                        console.log('get houses');
-                        console.log(response.data.data)
-                        this.houses = response.data.data.houses
+                .then(response => {
+                    console.log('get houses');
+                    console.log('ma rp ', response.data.data)
+                    this.houses = response.data.data.houses
+                    this.houses.forEach(house => {
+                        console.log(house.users)
+                        // recup firstname + ID (update)
                     })
-                    .catch(err => {
-                        console.log(err)
-                    })
+                    console.log('mes datas ', this.userDataVue)
+                    
+                })
+                .catch(err => {
+                    console.log(err)
+                })
             },
             createForm() {
                 console.log('ty go');
@@ -124,6 +125,7 @@
             filteredHouses() {
                 return this.houses.filter(house => {
                     return house.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1
+                    console.log(this.houses)
                 })
             }
         }
